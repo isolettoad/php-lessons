@@ -7,8 +7,8 @@ $text = str_replace(" ","", $text);
 
 $lenght = mb_strlen($text);
 $halfLenght = floor($lenght / 2);
-$partone = '';
-$parttwo = '';
+$partOne = '';
+$partTwo = '';
 
 for ($i = 0; $i <= $halfLenght; $i++){
     $a = mb_substr($text, $i,1);
@@ -20,7 +20,7 @@ for ($y=$lenght;$y >= $halfLenght; $y--){
     $parttwo .= $b;
     }
 
-if ($partone == $parttwo){
+if ($partOne == $partTwo){
     echo("Это палиндром ");
 }
 else{
