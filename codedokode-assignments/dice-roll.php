@@ -1,5 +1,5 @@
 <?php
 
-echo "Бросаем кубик... \n";
+echo 'Бросаем кубик...' . "\n";
 $random = rand(1, 6);
-echo "Выпало $random";
+echo 'Выпало' . $random;
