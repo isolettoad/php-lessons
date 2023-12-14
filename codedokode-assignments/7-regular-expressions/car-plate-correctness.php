@@ -4,23 +4,30 @@ $carPlate = 'С389УВ';
 $postCode = 'AL5 5ND';
 
 
-function carPlateCorrectnessCheck(string $isCarPlate):int
+/**
+ * @throws Exception
+ */
+function isCarPlateCorrect(string $carPlate): bool
 {
-    $correctPlateRuleregEx = '#^[а-я][0-9]{3}[а-я]{2}$#ui';
-    return  preg_match($correctPlateRuleregEx, $isCarPlate);
+    $carPlatePattern = '#^[а-я][0-9]{3}[а-я]{2}$#ui';
+    $result = (bool)preg_match($carPlatePattern, $carPlate);
+
+    if(PREG_NO_ERROR !== preg_last_error())
+    {
+        throw new Exception(preg_last_error_msg());
+    }
+
+    return $result;
 }
 
-function checkIsCarNumberAndPrint(string $NumberSequence):void
+function printCarNumber(string $carNumber, bool $isCarNumberPatternValid): void
 {
-    if (carPlateCorrectnessCheck($NumberSequence))
-    {
-        echo 'номер ' . $NumberSequence . ' имеет корректную форму' . PHP_EOL;
-    }
-    else
-    {
-        echo 'номер ' . $NumberSequence . ' не распознан или не имеет корректной формы' . PHP_EOL;
+    if ($isCarNumberPatternValid) {
+        echo 'номер ' . $carNumber . ' имеет корректную форму' . PHP_EOL;
+    } else {
+        echo 'номер ' . $carNumber . ' не распознан или не имеет корректной формы' . PHP_EOL;
     }
 }
 
-checkIsCarNumberAndPrint($carPlate);
-checkIsCarNumberAndPrint($postCode);
+printCarNumber($carPlate, isCarPlateCorrect($carPlate));
+printCarNumber($postCode, isCarPlateCorrect($postCode));
