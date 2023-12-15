@@ -32,41 +32,55 @@ $incorrectNumbers = [
     '7 234 5678901' /* нет + */
 ];
 
-$CorrectNumberPattern = '/^([\- ]?(8|\+[\- ]?7)[\- \(\)]*)(\(?\d\)*[\- \(\)]*){10}$/';
-
-function printCheckedPhoneNumbers(array $numbersArray): void
+/**
+ * @param array<string,bool> $numbers
+ */
+function printCheckedPhoneNumbers(array $numbers): void
 {
-    foreach ($numbersArray as $key => $value) {
-        if ($value) {
-            $correctNumbersString = implode(PHP_EOL, $key);
-        } else {
-            $incorrectNumbersString = implode(PHP_EOL, $key);
-        }
-    }
+    foreach ($numbers as $number => $isValid) {
+        $numberToPrint = $number;
 
-    echo 'Правильные номера:' . PHP_EOL . $correctNumbersString . PHP_EOL . 'неправильные номера:' . PHP_EOL . $incorrectNumbersString . PHP_EOL . '---------' . PHP_EOL;
+        if ($isValid) {
+            $numberToPrint .= ' - правильный';
+        } else {
+            $numberToPrint .= ' - неправильный';
+        }
+
+        $numberToPrint .= PHP_EOL;
+
+        echo $numberToPrint;
+    }
 }
 
-/**
- * @throws Exception
- */
-function checkPhoneNumbersArray(string $numberPattern, array $numbersArray): array
+function checkPhoneNumbers(array $numbers): array
 {
-    $checkedNumbersArray = [];
+    $numberPattern = '/^([\- ]?(8|\+[\- ]?7)[\- ()]*)(\(?\d\)*[\- ()]*){10}$/';
+    $checkedNumbers = [];
 
-    foreach ($numbersArray as $value)
-    {
-        if (preg_match($numberPattern, $value))
-        {
-            $checkedNumbersArray += [$value => true];
+    $correctNumbers = pregGrep($numberPattern, $numbers);
+
+    foreach ($numbers as $number) {
+        $isNumberCorrect = false;
+        if (in_array($number, $correctNumbers, true)) {
+            $isNumberCorrect = true;
         }
-        else $checkedNumbersArray += [$value => false];
+
+        $checkedNumbers[$number] = $isNumberCorrect;
     }
+
+    return $checkedNumbers;
+}
+
+function pregGrep(string $pattern, array $values): array
+{
+    $result = preg_grep($pattern, $values);
 
     if (PREG_NO_ERROR !== preg_last_error()) {
-        throw new Exception(preg_last_error_msg());
+        throw new RuntimeException(preg_last_error_msg());
     }
 
-    return $checkedNumbersArray;
+    return $result;
 }
 
+printCheckedPhoneNumbers(checkPhoneNumbers($correctNumbers));
+printCheckedPhoneNumbers(checkPhoneNumbers($incorrectNumbers));
