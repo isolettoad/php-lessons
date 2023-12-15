@@ -70,4 +70,3 @@ function checkPhoneNumbersArray(string $numberPattern, array $numbersArray): arr
     return $checkedNumbersArray;
 }
 
-printCheckedPhoneNumbers();
