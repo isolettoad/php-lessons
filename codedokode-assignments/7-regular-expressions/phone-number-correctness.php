@@ -34,38 +34,40 @@ $incorrectNumbers = [
 
 $CorrectNumberPattern = '/^([\- ]?(8|\+[\- ]?7)[\- \(\)]*)(\(?\d\)*[\- \(\)]*){10}$/';
 
-function checkPhoneNumberArrayAndPrintResult(array $arrayOfNumbers, $numberPattern): void
+function printCheckedPhoneNumbers(array $numbersArray): void
 {
-    printPhoneNumbersCheckResults($arrayOfNumbers, getCorrectPhoneNumberArray($numberPattern, $arrayOfNumbers));
-}
+    foreach ($numbersArray as $key => $value) {
+        if ($value) {
+            $correctNumbersString = implode(PHP_EOL, $key);
+        } else {
+            $incorrectNumbersString = implode(PHP_EOL, $key);
+        }
+    }
 
-function printPhoneNumbersCheckResults(array $unmodifiedNumbersArray, array $correctNumbersArray): void
-{
-    $incorrectNumbersArray = array_diff($unmodifiedNumbersArray, $correctNumbersArray);
-
-    $amountOfNumbers = count($unmodifiedNumbersArray);
-    $amountOfCorrectNumbers = count($correctNumbersArray);
-
-    $correctNumbersString = implode(PHP_EOL, $correctNumbersArray);
-    $incorrectNumbersString = implode(PHP_EOL, $incorrectNumbersArray);
-
-    echo 'Найдено ' . $amountOfCorrectNumbers . ' из ' . $amountOfNumbers . ' номеров соответствующим правилам' . PHP_EOL . 'Правильные номера:' . PHP_EOL . $correctNumbersString . PHP_EOL . 'неправильные номера:' . PHP_EOL . $incorrectNumbersString . PHP_EOL . '---------' . PHP_EOL;
+    echo 'Правильные номера:' . PHP_EOL . $correctNumbersString . PHP_EOL . 'неправильные номера:' . PHP_EOL . $incorrectNumbersString . PHP_EOL . '---------' . PHP_EOL;
 }
 
 /**
  * @throws Exception
  */
-function getCorrectPhoneNumberArray(string $NumberPattern, array $numbersArray): array
+function checkPhoneNumbersArray(string $numberPattern, array $numbersArray): array
 {
-    $uniqueNumbers = array_unique($numbersArray);
-    $correctNumbersArray = preg_grep($NumberPattern, $uniqueNumbers);
+    $checkedNumbersArray = [];
+
+    foreach ($numbersArray as $value)
+    {
+        if (preg_match($numberPattern, $value))
+        {
+            $checkedNumbersArray += [$value => true];
+        }
+        else $checkedNumbersArray += [$value => false];
+    }
 
     if (PREG_NO_ERROR !== preg_last_error()) {
         throw new Exception(preg_last_error_msg());
     }
 
-    return $correctNumbersArray;
+    return $checkedNumbersArray;
 }
 
-checkPhoneNumberArrayAndPrintResult($correctNumbers, $CorrectNumberPattern);
-checkPhoneNumberArrayAndPrintResult($incorrectNumbers, $CorrectNumberPattern);
+printCheckedPhoneNumbers();
