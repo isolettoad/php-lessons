@@ -70,6 +70,7 @@ function checkPhoneNumbers(array $numbers): array
 
     return $checkedNumbers;
 }
+
 function pregGrep(string $pattern, array $values): array
 {
     $result = preg_grep($pattern, $values);

@@ -3,18 +3,16 @@
 $correctNumber = '8-911 12 345 67';
 $incorrectNumber = '+8 234 5678901';
 
-$russianNumberPattern = '/^([\- ]?(8|\+[\- ]?7)[\- \(\)]*)(\(?\d\)*[\- \(\)]*){10}$/';
-
 /**
  * @throws Exception
  */
 
-function printFormattedPhoneNumber(
+function printCheckedPhoneNumber(
     array $phoneNumber
 ): void {
-    $IsCorrect = array_values($phoneNumber);
+    $isCorrect = array_values($phoneNumber);
     $phoneNumberToPrint = (string)array_key_first($phoneNumber);
-    if ($IsCorrect[0]) {
+    if ($isCorrect[0]) {
         echo 'строка ' . $phoneNumberToPrint . ' содержит в себе правильный номер телефона' . PHP_EOL;
     } else {
         echo 'строка ' . $phoneNumberToPrint . ' не содержит в себе правильный номер телефона' . PHP_EOL;
@@ -23,7 +21,7 @@ function printFormattedPhoneNumber(
 
 function checkPhoneNumber(
     string $phoneNumber,
-    $numberPattern = '/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/',
+    $numberPattern = '/^8(\d){10}$/',
 ): array {
     $isCorrect = (bool)preg_match($numberPattern, $phoneNumber);
 
@@ -31,27 +29,23 @@ function checkPhoneNumber(
         throw new Exception(preg_last_error_msg());
     }
 
-    $CheckedNumber = [];
+    $checkedNumber = [];
 
     if ($isCorrect) {
-        return $CheckedNumber[] = [$phoneNumber => true];
+        $checkedNumber[$phoneNumber] = $isCorrect;
     } else {
-        return $CheckedNumber[] = [$phoneNumber => false];
+        $checkedNumber[$phoneNumber] = $isCorrect;
     }
+    return $checkedNumber;
 }
 
-function formatCheckedPhoneNumber(array $CheckedNumber): array
+function formatPhoneNumber(string $phoneNumber): string
 {
-    $numberToFormat = array_key_first($CheckedNumber);
-    $wasCorrect = array_values($CheckedNumber);
-    $areaCodeToReplace = '/^\+[\- ]?7/';
-    $unnecessaryCharactersBetweenNumbers = '/[\- ()]/';
-    $numberToFormat = preg_replace($areaCodeToReplace, '', $numberToFormat);
-    $numberToFormat = preg_replace($unnecessaryCharactersBetweenNumbers, '', $numberToFormat);
-    $formattedCheckedNumber = [$numberToFormat => $wasCorrect];
+    $ruleFormatTo = '/^(\+|[\- ]?7)|[\- ()]/';
+    $phoneNumber = preg_replace($ruleFormatTo, '', $phoneNumber);
 
-    return $formattedCheckedNumber;
+    return $phoneNumber;
 }
 
-printFormattedPhoneNumber(formatCheckedPhoneNumber(checkPhoneNumber($correctNumber, $russianNumberPattern)));
-printFormattedPhoneNumber(formatCheckedPhoneNumber(checkPhoneNumber($incorrectNumber, $russianNumberPattern)));
+printCheckedPhoneNumber(checkPhoneNumber(formatPhoneNumber($correctNumber)));
+printCheckedPhoneNumber(checkPhoneNumber(formatPhoneNumber($incorrectNumber)));
