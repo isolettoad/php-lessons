@@ -1,7 +1,7 @@
 <?php
 
 $correctNumber = '8-911 12 345 67';
-$incorrectNumber = '+8 234 5678901';
+$incorrectNumber = '+7 234 5678901';
 
 /**
  * @throws Exception
@@ -31,20 +31,14 @@ function checkPhoneNumber(
 
     $checkedNumber = [];
 
-    if ($isCorrect) {
-        $checkedNumber[$phoneNumber] = $isCorrect;
-    } else {
-        $checkedNumber[$phoneNumber] = $isCorrect;
-    }
+    $checkedNumber[$phoneNumber] = $isCorrect;
     return $checkedNumber;
 }
 
 function formatPhoneNumber(string $phoneNumber): string
 {
     $ruleFormatTo = '/^(\+|[\- ]?7)|[\- ()]/';
-    $phoneNumber = preg_replace($ruleFormatTo, '', $phoneNumber);
-
-    return $phoneNumber;
+    return preg_replace($ruleFormatTo, '', $phoneNumber);
 }
 
 printCheckedPhoneNumber(checkPhoneNumber(formatPhoneNumber($correctNumber)));

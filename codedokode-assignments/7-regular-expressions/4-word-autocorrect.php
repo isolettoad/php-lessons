@@ -7,10 +7,7 @@ function replaceWordFool(string $text): string
     $rule = '/д( *)(у|y)( *)(р|p)( *)(а|a)( *)(к|k)/ui';
     $replaceTo = 'нехороший человек';
 
-    $correctedText = preg_replace($rule, $replaceTo, $text);
-
-    return $correctedText;
+    return preg_replace($rule, $replaceTo, $text);
 }
 
 echo replaceWordFool($text);
-
