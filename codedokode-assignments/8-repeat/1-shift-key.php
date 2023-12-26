@@ -21,7 +21,7 @@ function fixText(string $text):string
     $sentencePattern = '/(?<=[!?.])./u';
     $sentences = preg_split($sentencePattern , $text, flags:PREG_SPLIT_NO_EMPTY);
     array_walk($sentences, 'makeFirstLetterUppercase');
-
+    var_dump($sentences);
 }
 
 fixText($text);
