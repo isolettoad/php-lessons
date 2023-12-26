@@ -9,19 +9,20 @@ function test($text):void
 {
     $lowercaseText = mb_strtolower($text);
     $sentences = preg_split('/([.?!;] )+/', $lowercaseText, 0, PREG_SPLIT_NO_EMPTY);
-    foreach ($sentences as &$sentence)
+    $reversedSentences = [];
+    foreach ($sentences as $sentence)
     {
-        $sentence = explode(' ', $sentence);
-        $sentence = array_reverse($sentence);
-        foreach ($sentence as &$word)
+        $words = explode(' ', $sentence);
+        $reversedSentences = array_reverse($sentence);
+        var_dump($reversedSentences);
+        foreach ($words as &$word)
         {
             $word = trim($word, ',');
         }
         unset($word);
+        $implodedSentence = implode(' ', $sentences);
     }
     unset($sentence);
-
-    var_dump($sentences);
 }
 
 /* Делает первую букву предложения заглавной */
@@ -37,3 +38,4 @@ function makeYodaStyleText(string $text)
 test($text);
 $yodaText = makeYodaStyleText($text);
 echo "Йода говорит: {$yodaText}\n";
+
