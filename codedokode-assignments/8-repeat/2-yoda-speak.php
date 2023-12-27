@@ -25,7 +25,6 @@ function makeYodaStyleText(string $text): string
         $reversedSentences[] = implode(' ', $reversedWords);
     }
 
-    var_dump($reversedSentences);
     $reversedSentencesPeriodAtEnd = array_map(static function ($sentence) {
         return $sentence . '.';
     },
