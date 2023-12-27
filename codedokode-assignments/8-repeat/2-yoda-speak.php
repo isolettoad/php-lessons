@@ -1,41 +1,42 @@
 <?php
 
 $text = "Кажется, нас обнаружили! Надо срочно уходить отсюда, пока не поздно. Бежим же скорее!";
-// Другие варианты для тестов
-// $text = "Ну, прости меня! Не хотела я тебе зла сделать; да в себе не вольна была. Что говорила, что делала, себя не помнила.";
-// $text = "Идет гражданская война. Космические корабли повстанцев, наносящие удар с тайной базы, одержали первую победу, в схватке со зловещей Галактической Империей.";
+$text1 = "Ну, прости меня! Не хотела я тебе зла сделать; да в себе не вольна была. Что говорила, что делала, себя не помнила.";
+$text2 = "Идет гражданская война. Космические корабли повстанцев, наносящие удар с тайной базы, одержали первую победу, в схватке со зловещей Галактической Империей.";
 
-function test($text):void
+
+/* Делает первую букву предложения заглавной */
+function makeFirstLetterUppercase(string $text): string
+{
+    return mb_strtoupper(mb_substr($text, 0, 1)) . mb_substr($text, 1);
+}
+
+function makeYodaStyleText(string $text): string
 {
     $lowercaseText = mb_strtolower($text);
     $sentences = preg_split('/([.?!;] )+/', $lowercaseText, 0, PREG_SPLIT_NO_EMPTY);
     $reversedSentences = [];
-    foreach ($sentences as $sentence)
-    {
+    foreach ($sentences as $sentence) {
         $words = explode(' ', $sentence);
-        $reversedSentences = array_reverse($sentence);
-        var_dump($reversedSentences);
-        foreach ($words as &$word)
-        {
-            $word = trim($word, ',');
-        }
-        unset($word);
-        $implodedSentence = implode(' ', $sentences);
+        $wordsWithoutPunctuation = array_map(static function ($word) {
+            return trim($word, ',.?!');
+        }, $words);
+        $reversedWords = array_reverse($wordsWithoutPunctuation);
+        $reversedSentences[] = implode(' ', $reversedWords);
     }
-    unset($sentence);
+
+    var_dump($reversedSentences);
+    $reversedSentencesPeriodAtEnd = array_map(static function ($sentence) {
+        return $sentence . '.';
+    },
+        $reversedSentences);
+    $reversedSentencesCapitalFirstLetter = array_map('makeFirstLetterUppercase', $reversedSentencesPeriodAtEnd);
+    return implode(' ', $reversedSentencesCapitalFirstLetter);
 }
 
-/* Делает первую букву предложения заглавной */
-function makeFirstletterUppercase(string $text):string
-{
-    /* Сделай сам */
-}
-function makeYodaStyleText(string $text)
-{
-    $result = '';
-}
-
-test($text);
 $yodaText = makeYodaStyleText($text);
-echo "Йода говорит: {$yodaText}\n";
-
+$yodaText1 = makeYodaStyleText($text1);
+$yodaText2 = makeYodaStyleText($text2);
+echo "Йода говорит: $yodaText\n";
+echo "Йода говорит: $yodaText1\n";
+echo "Йода говорит: $yodaText2\n";
