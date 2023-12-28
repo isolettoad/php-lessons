@@ -12,8 +12,7 @@ function isCarPlateCorrect(string $carPlate): bool
     $carPlatePattern = '#^[а-я][0-9]{3}[а-я]{2}$#ui';
     $result = (bool)preg_match($carPlatePattern, $carPlate);
 
-    if(PREG_NO_ERROR !== preg_last_error())
-    {
+    if (PREG_NO_ERROR !== preg_last_error()) {
         throw new Exception(preg_last_error_msg());
     }
 

@@ -21,9 +21,8 @@ $letters = [
 
 $name = '';
 
-for ($i =1; $i <= 4; $i++)
-{
-    $random = rand(0, count($letters));
+for ($i = 1; $i <= 4; $i++) {
+    $random = random_int(0, count($letters));
     $randomText = $letters[$random];
 
     echo 'Выпало число' . $random . ', слог' . $randomText . "\n";

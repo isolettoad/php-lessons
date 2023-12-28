@@ -9,4 +9,4 @@ $ratesSum = array_sum($rates);
 $ratesCount = count($rates); /* Количество оценок — эту строчку надо дописать самому */
 $averageRate = $ratesSum / $ratesCount; /* Средняя оценка — допиши сам */
 
-echo "Анону поставили {$ratesCount} оценок, их сумма = {$ratesSum}\nСредний балл — {$averageRate}\n";
+echo "Анону поставили $ratesCount оценок, их сумма = $ratesSum\nСредний балл — $averageRate\n";

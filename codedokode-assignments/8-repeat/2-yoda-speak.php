@@ -35,7 +35,6 @@ function makeYodaStyleText(string $text): string
     return implode(' ', $reversedSentencesCapitalFirstLetter);
 }
 
-foreach ($texts as $text)
-{
+foreach ($texts as $text) {
     echo makeYodaStyleText($text) . PHP_EOL;
 }

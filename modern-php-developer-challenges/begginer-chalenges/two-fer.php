@@ -2,8 +2,7 @@
 
 function twoFer(string $name = 'you'): string
 {
-    $concatenatedString = 'one for ' . $name . ', one for me' . PHP_EOL;
-    return $concatenatedString;
+    return 'one for ' . $name . ', one for me' . PHP_EOL;
 }
 
 echo twoFer('Alice');

@@ -40,4 +40,4 @@ $code = array(
 $text = 'нас предали. явка провалена.';
 $cipher = strtr($text, $code);
 
-echo "Оригинал: {$text}\nШифровка: {$cipher}\n";
+echo "Оригинал: $text\nШифровка: $cipher\n";

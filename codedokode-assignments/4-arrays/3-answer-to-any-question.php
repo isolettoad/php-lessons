@@ -10,7 +10,7 @@ $answers = [
 ];
 
 $question = 'Выучу ли я PHP?';
-$random = rand(1, 6);
+$random = random_int(1, 6);
 $answer = $answers[$random];
 
 echo 'Вопрос: ' . $question . "\n";
