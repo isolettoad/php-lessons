@@ -2,7 +2,7 @@
 
 $dnaSequence = 'CACCTGCGGCGTAACACTGTGGATCCCATG';
 
-class NucleotideCount
+class DNA
 {
     public static function nucleotideCount(string $input): array
     {
@@ -15,4 +15,4 @@ class NucleotideCount
     }
 }
 
-print_r(NucleotideCount::nucleotideCount($dnaSequence));
+print_r(DNA::nucleotideCount($dnaSequence));
